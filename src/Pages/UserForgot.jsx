@@ -1,23 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UserForgot = () => {
     let [verify, setVerify] = useState(false);
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
+    let [emailError, setEmailErr] = useState('');
     let navigate = useNavigate();
+
 
     let handleChangeEmail = (e) => {
         setEmail(e.target.value);
         console.log(email);
     }
     // console.log(email);
-    let handleVerifyEmail = () => {
-        setVerify(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setEmailErr('')
+        }, 3000)
+    },[emailError])
+
+    let handleVerifyEmail = (e) => {
+        e.preventDefault()
+        if(email === "admin@gmail.com"){
+
+            setVerify(true);
+        }
+        else{
+            setEmailErr('Email Not Found')
+        }
     }
 
     let handleUpdatePassword = () => {
+
         console.log(password+" updated");
+        navigate('/login');
     }
 
     let handleLogin = () => {
@@ -26,6 +44,13 @@ const UserForgot = () => {
     return (
         <section className="bg-neutral-300 h-screen flex justify-center items-center">
             <section className="bg-white p-12 rounded-4xl shadow-2xl shadow-blue-600">
+                {
+                    (emailError && (
+                        <div className="p-3 bg-red-500  text-2xl">
+                            {emailError}
+                        </div>
+                    ))
+                }
                 <div className="text-center">
                     <h1 className="text-blue-700">Forgot Password</h1>
                 </div>
@@ -41,7 +66,7 @@ const UserForgot = () => {
                         <div className=" flex flex-col gap-5">
                             <div className=" flex justify-between">
                                 <label htmlFor="password" className="font-bold text-2xl flex items-center">Password</label>
-                                <input className="border p-3 w-100 rounded-xl outline-none focus:border-blue-600 disabled:bg-gray-300 disabled:cursor-no-drop" type="password" name="password" id="password" disabled={(!verify) ? true : false}
+                                <input className="border p-3 w-100 rounded-xl outline-none focus:border-blue-600 disabled:bg-gray-300 disabled:cursor-no-drop" type="password" name="password" id="password" onChange={(e) => {setPassword(e.target.value)}} disabled={(!verify) ? true : false}
                                 placeholder="Enter new password"
                                 required/>
                             </div>

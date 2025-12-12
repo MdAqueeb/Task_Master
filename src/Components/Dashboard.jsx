@@ -1,0 +1,28 @@
+// import { Link, Outlet } from "react-router-dom";
+const Dashboard = () => {
+    return (
+        <>
+            {/* <header className="  pl-15 pr-15 fixed top-0 bg-white w-full  flex justify-between">
+                <div className="text-3xl flex items-center">
+                    Task Manster
+                </div>
+                <div className=" font-bold text-2xl flex justify-center items-center">
+                    <Link className="bg-neutral-100 pt-8 pb-8 pl-3 pr-3 border-b-blue-500 border-b-6" to={'/dashboard'}>Dashboard</Link>
+                    <Link className=" pt-8 pb-8 pl-6 pr-6 hover:bg-neutral-100" to={'/tasks'} >Task</Link>
+                    <Link className=" pt-8 pb-8 pl-4 pr-4 hover:bg-neutral-100" to={'/team'} >Team</Link>
+                    <Link className=" pt-8 pb-8 pl-4 pr-4 hover:bg-neutral-100" to={'trash'} >Trash</Link>
+                    <Outlet></Outlet>
+                </div>
+                <div className="font-bold text-2xl flex gap-8 justify-center items-center">
+                    <i className="fa-solid fa-bell"></i>
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+            </header> */}
+           
+            <h1>This is a Dashboard</h1>
+            
+        </>
+    )
+}
+
+export default Dashboard

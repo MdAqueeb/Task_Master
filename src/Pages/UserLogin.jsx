@@ -10,9 +10,12 @@ const UserLogin = () => {
     const navigate = useNavigate();
     let handleSubmit = (e) => {
         e.preventDefault();
-        // console.log("Yesin")
-        if(email === 'admin@gmial.com' && password === 'admin123'){
+        console.log("Yesin")
+        if(email === 'admin@gmail.com' && password === 'admin123'){
             navigate('/dashboard');
+        }
+        else if(email !== 'admin@gmail.com' ){
+            navigate('/sinup');
         }
         else{
             setError("Invalid email or password")
@@ -39,7 +42,6 @@ const UserLogin = () => {
 
     return (
         <>
-
         
         <section className="h-screen flex flex-col justify-center items-center bg-neutral-300">
 

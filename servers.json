@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "id": "ba73",
+      "user": {
+        "profile": "/src/assets/profile_avatar.webp",
+        "name": "Aqueeb",
+        "email": "aqueeb@gmail.com",
+        "password": "test"
+      }
+    }
+  ],
+  "tasks": []
+}
