@@ -35,15 +35,15 @@ const UserSignUp = () => {
     if(Password === ConPass){
       console.log("User register Successfully");
       let user = {
-        profile : Profile,
-        name : Name,
+        username : Name,
         email : Email, 
-        password : Password
+        password : Password,
+        profilePic : Profile
       }
       console.log(user);
       addUser(user)
         .then((res) => {
-          (res.success) ? setTimeout(navigate('/login'),2000) : setFailed(true);
+          (res.success) ? setTimeout(navigate('/'),2000) : setFailed(true);
         })
         .catch((err) => {console.log(err)})
     }
@@ -64,7 +64,7 @@ const UserSignUp = () => {
   let diable = (Name === '' || Email === '' || Password === '' || ConPass === '') ? true : false;
 
   const handlLogin = () => {
-   navigate('/login')
+   navigate('/')
   }
   return (
     <section className="h-screen flex flex-col justify-center items-center bg-neutral-300 border">

@@ -7,7 +7,12 @@
         "name": "Aqueeb",
         "email": "aqueeb@gmail.com",
         "password": "test"
-      }
+      },
+      "tasks" : [
+        {
+
+        }
+      ]
     }
   ],
   "tasks": []

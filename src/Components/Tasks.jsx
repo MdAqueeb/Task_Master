@@ -1,5 +1,11 @@
-// import { Link, Outlet } from "react-router-dom";
+import { useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import Create_Task from "./Create_Task";
 const Tasks = () => {
+
+    let tast_progress = ["INPROGRESS", "TODO", "COMPLETED", "DUETO"];
+    let [creatTask, setCreateTask] = useState(false)
+
     return (
         <>
             {/* <header className="  pl-15 pr-15 fixed top-0 bg-white w-full  flex justify-between">
@@ -19,7 +25,35 @@ const Tasks = () => {
                 </div>
             </header> */}
             
-            <h1>This is a Tasks</h1>
+            <>
+            
+                <section  className=" m-10 bg-neutral-100 min-h-screen p-10">
+                    {
+                        creatTask && 
+                        <div className="h-screen bg-[#6b686878]  w-screen fixed top-0 left-0 flex justify-center items-center">
+                            <Create_Task onClose={() => setCreateTask(false)}/>
+                        </div>
+                        
+                    }
+                    
+                    <div className="flex justify-between items-center"> 
+                        <p className="text-4xl font-bold">Task</p>
+                        <button className="bg-blue-600 cursor-pointer hover:bg-blue-500 hover:text-black p-4 font-bold rounded-lg text-xl text-white flex items-center gap-2" onClick={() => {setCreateTask(true)}}>
+                            <i class="fa-solid fa-plus"></i>Create Task</button>
+                    </div>
+
+                    <div className="flex gap-6 mt-6">
+                        <Link className="bg-white px-4 py-2 rounded-md" to="todo">TO-DO</Link>
+                        <Link className="bg-white px-4 py-2 rounded-md" to="inprogress">IN-PROGRESS</Link>
+                        <Link className="bg-white px-4 py-2 rounded-md" to="completed">COMPLETED</Link>
+                        <Link className="bg-white px-4 py-2 rounded-md" to="dueto">DUE-TO</Link>
+                    </div>
+
+                    <div className="flex flex-wrap gap-5">
+                        <Outlet></Outlet>
+                    </div>
+                </section>
+            </>
         </>
     )
 }

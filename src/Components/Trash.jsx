@@ -1,26 +1,112 @@
-// import { Outlet, Link } from "react-router-dom";
+import { useState } from "react";
+import TrashTaskRow from "./TrashTaskRow";
+
 const Trash = () => {
-    return (
-        <>
-            {/* <header className="  pl-15 pr-15 fixed top-0 bg-white w-full  flex justify-between">
-                <div className="text-3xl flex items-center">
-                    Task Manster
-                </div>
-                <div className=" font-bold text-2xl flex justify-center items-center">
-                    <Link className=" pt-8 pb-8 pl-3 pr-3 hover:bg-neutral-100" to={'/dashboard'}>Dashboard</Link>
-                    <Link className=" pt-8 pb-8 pl-6 pr-6 hover:bg-neutral-100" to={'/tasks'} >Task</Link>
-                    <Link className=" pt-8 pb-8 pl-4 pr-4 hover:bg-neutral-100" to={'/team'} >Team</Link>
-                    <Link className="bg-neutral-100 border-b-6 border-b-blue-500 pt-8 pb-8 pl-4 pr-4" to={'/trash'} >Trash</Link>
-                    <Outlet></Outlet>
-                </div>
-                <div className="font-bold text-2xl flex gap-8 justify-center items-center">
-                    <i className="fa-solid fa-bell"></i>
-                    <i class="fa-solid fa-circle-user"></i>
-                </div>
-            </header> */}
-            
-            <h1>This is a Trash</h1>
-        </>
-    )
-}
+  // Dummy trash tasks (replace with API)
+  const allTrashTasks = [
+    {
+      id: 1,
+      title: "Fix login bug",
+      deletedAt: "12-12-2025",
+    },
+    {
+      id: 2,
+      title: "Design dashboard UI",
+      deletedAt: "10-12-2025",
+    },
+    {
+      id: 3,
+      title: "Prepare API docs",
+      deletedAt: "08-12-2025",
+    },
+  ];
+
+  /* ---------------- Pagination ---------------- */
+  const itemsPerPage = 5;
+  const [page, setPage] = useState(1);
+
+  const start = (page - 1) * itemsPerPage;
+  const paginatedTasks = allTrashTasks.slice(
+    start,
+    start + itemsPerPage
+  );
+
+  const totalPages = Math.ceil(allTrashTasks.length / itemsPerPage);
+
+  /* ---------------- Actions ---------------- */
+  const handleRestore = (id) => {
+    console.log("Restore task:", id);
+    // call restore API
+  };
+
+  const handleDelete = (id) => {
+    console.log("Delete permanently:", id);
+    // call delete API
+  };
+
+  return (
+    <section className="m-10 bg-neutral-100 p-10 min-h-screen">
+      {/* Header */}
+      <h1 className="text-4xl font-bold mb-6">Trash</h1>
+
+      {/* List */}
+      <div className="flex flex-col gap-4">
+        {paginatedTasks.length === 0 ? (
+          <p className="text-center text-gray-500">Trash is empty</p>
+        ) : (
+          paginatedTasks.map((task) => (
+            <TrashTaskRow
+              key={task.id}
+              task={task}
+              onRestore={handleRestore}
+              onDelete={handleDelete}
+            />
+          ))
+        )}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center gap-2 mt-8">
+        <button
+          disabled={page === 1}
+          onClick={() => setPage((p) => p - 1)}
+          className={`px-4 py-2 rounded-md ${
+            page === 1
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-white hover:bg-gray-200"
+          }`}
+        >
+          Prev
+        </button>
+
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i + 1)}
+            className={`px-3 py-2 rounded-md ${
+              page === i + 1
+                ? "bg-blue-600 text-white"
+                : "bg-white hover:bg-gray-200"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage((p) => p + 1)}
+          className={`px-4 py-2 rounded-md ${
+            page === totalPages
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-white hover:bg-gray-200"
+          }`}
+        >
+          Next
+        </button>
+      </div>
+    </section>
+  );
+};
+
 export default Trash;

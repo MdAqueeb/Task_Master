@@ -13,6 +13,10 @@ import Dashboard from './Components/Dashboard'
 import Tasks from './Components/Tasks'
 import Team from './Components/Team'
 import Trash from './Components/Trash'
+import Todo from './Components/Todo'
+import InProgress from './Components/InProgress'
+import Completed from './Components/Completed'
+import DueTo from './Components/DueTo'
 // import User_Forgot from './Pages/User_Forgot'
 
 function App() {
@@ -26,12 +30,22 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<UserLogin />}> </Route>
+          <Route path='/' element={<UserLogin />}> </Route>
           <Route path='/sinup' element={<UserSignUp />}></Route>
           <Route path='/forgotPassword' element={<UserForgot />}/>
           <Route path='/dashboardHome' element={<Dashboard_Home />}>
             <Route path='dashboard' element={<Dashboard />} />
-            <Route path='tasks' element={<Tasks />} />
+            {/* <Route path='tasks' element={<Tasks />}> 
+              <Route path='todo' element={<Todo />}></Route>
+            </Route> */}
+            <Route path="tasks" element={<Tasks />}>
+              <Route path="todo" element={<Todo />} />
+              <Route path="inprogress" element={<InProgress />} />
+              <Route path="completed" element={<Completed />} />
+              <Route path="dueto" element={<DueTo />} />
+            </Route>
+
+
             <Route path='team' element={<Team />} />
             <Route path='trash' element={<Trash />} />
           </Route>

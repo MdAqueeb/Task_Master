@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { verifyEmail, updatePassword } from "../APIs/User";
 
 const UserForgot = () => {
     let [verify, setVerify] = useState(false);
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
+    let [confirmPassword, setConfirmPassword] = useState('')
     let [emailError, setEmailErr] = useState('');
-    let navigate = useNavigate();
+    let [passError, setPassError] = useState('');
+    let navigate = useNavigate(); 
 
 
     let handleChangeEmail = (e) => {
@@ -18,28 +21,67 @@ const UserForgot = () => {
     useEffect(() => {
         setTimeout(() => {
             setEmailErr('')
+            setPassError('')
         }, 3000)
-    },[emailError])
+    },[emailError, passError])
 
     let handleVerifyEmail = (e) => {
         e.preventDefault()
-        if(email === "admin@gmail.com"){
+        verifyEmail(email)
+            .then((res) => {
+                // console.log(res+" inside forgot component")
+                // console.log(res.data.status+" status")
+                if(res.status == 404){
+                    setEmailErr("Email In Valid");
+                }
+                else if(res.status == 200){
+                    setVerify(true);
+                    console.log("verified");
+                }
 
-            setVerify(true);
-        }
-        else{
-            setEmailErr('Email Not Found')
-        }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
-    let handleUpdatePassword = () => {
+    let handleUpdatePassword = (e) => {
+        e.preventDefault()
+        if(password === confirmPassword){
+            let passDetails = {
+                email : email,
+                password : password, 
+                confirmPassword : confirmPassword
+            }
+            updatePassword(passDetails)
+                .then((res) => {
+                    console.log(res+" "+res.status)
+                    if(res.status == 404){
+                        setEmailErr("User In Valid");
+                    }
+                    else if(res.status == 409){
+                        setPassError("Password Not Match");
+                    }
+                    else if(res.status == 200){
+                        navigate('/')
+                    }
 
-        console.log(password+" updated");
-        navigate('/login');
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                
+        
+        }
+        else{
+            e.preventDefault()
+            setPassError("Password Not Match")
+        }
+        
     }
 
     let handleLogin = () => {
-        navigate('/login')
+        navigate('/')
     }
     return (
         <section className="bg-neutral-300 h-screen flex justify-center items-center">
@@ -48,6 +90,13 @@ const UserForgot = () => {
                     (emailError && (
                         <div className="p-3 bg-red-500  text-2xl">
                             {emailError}
+                        </div>
+                    ))
+                }
+                {
+                    (passError && (
+                        <div className="p-3 bg-red-500  text-2xl">
+                            {passError}
                         </div>
                     ))
                 }
@@ -72,7 +121,7 @@ const UserForgot = () => {
                             </div>
                             <div className=" flex justify-between gap-3">
                                 <label htmlFor="confirm" className="font-bold text-2xl flex items-center">Confirm Password</label>
-                                <input className="border p-3 w-100 rounded-xl outline-none focus:border-blue-600 disabled:bg-gray-300 disabled:cursor-no-drop" type="password" name="confirm" id="confirm" disabled={(!verify) ? true : false}
+                                <input className="border p-3 w-100 rounded-xl outline-none focus:border-blue-600 disabled:bg-gray-300 disabled:cursor-no-drop" type="password" name="confirm" id="confirm" onChange={(e) => {setConfirmPassword(e.target.value)}} disabled={(!verify) ? true : false}
                                 placeholder="Enter again same password"
                                 required/>   
                             </div>
